@@ -9,13 +9,12 @@ class App extends Component {
         this.state = {
             query: '',
             pkmnList: null
-            //tracks: []
         }
     }
 
     search() {
         const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
-        let FETCH_URL = `${BASE_URL}${this.state.query}`;
+        let FETCH_URL = `${BASE_URL}${this.state.query.toLowerCase()}`;
 
         fetch(FETCH_URL, {
             method: 'GET'
@@ -25,7 +24,6 @@ class App extends Component {
                 const pkmnList = json;
                 this.setState({pkmnList});
             });
-        console.log('this.state', this.state);
     }
 
     render() {
@@ -37,7 +35,7 @@ class App extends Component {
                     <InputGroup className="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
                         <FormControl
                             type="text"
-                            placeholder="Search for an Pokefion"
+                            placeholder="Search for a Pokemon"
                             value={this.state.query}
                             onChange={event => {this.setState({query: event.target.value})}}
                             onKeyPress={event => {
