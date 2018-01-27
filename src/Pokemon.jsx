@@ -18,10 +18,10 @@ class Pokemon extends Component {
                             <div className="row pokemonName center-block">{this.props.pkmnList.forms[0].name} #{this.props.pkmnList.id}</div>
                             <div className="row"><img className="center-block" src={this.props.pkmnList.sprites['front_default']} alt="Not found"/></div>
                             {
-                                Object.values(this.props.pkmnList.types).map((type) => {
+                                Object.values(this.props.pkmnList.types).map((type, k) => {
                                     return (
-                                        <div className="center-block type">
-                                            <span>{type.type.name}</span>
+                                        <div key={k} className="center-block type">
+                                            <span >{type.type.name}</span>
                                         </div>
                                     )
                                 })
@@ -32,9 +32,9 @@ class Pokemon extends Component {
                         { /*Pokemon's stats*/ }
                         <div className="col-md-3 col-xs-6 leftColumn">
                         {
-                            Object.values(this.props.pkmnList.stats).map((stat) => {
+                            Object.values(this.props.pkmnList.stats).map((stat, k) => {
                                 return (
-                                    <div className="row"><span className="stats">{stat.stat.name} </span> : {stat.base_stat}</div>
+                                    <div className="row" key={k}><span className="stats">{stat.stat.name} </span> : {stat.base_stat}</div>
                                 )
                             })
                         }
