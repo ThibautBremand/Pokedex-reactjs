@@ -1,0 +1,23 @@
+body {
+  background-color: #040404;
+  /*color: #fff;*/
+  background-image : url('img/background.jpg') ;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 680px) {
+  body {
+    background-position-y: 8em;
+  }
+}
+
+.App {
+  text-align: center;
+  padding: 5%;
+}
+
+.App-title {
+  font-size: 26px;
+  color: white;
+}
