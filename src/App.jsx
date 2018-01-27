@@ -10,6 +10,8 @@ class App extends Component {
         this.state = {
             query: '',
             pkmnList: null,
+            species:null,
+            evolutionChain: null,
             isFetching: false
         }
     }
@@ -28,7 +30,26 @@ class App extends Component {
             .then(response => response.json())
             .then(json => {
                 const pkmnList = json;
-                this.setState({pkmnList,isFetching:false});
+                this.setState({pkmnList});
+
+                fetch(this.state.pkmnList.species.url, {
+                    method: 'GET'
+                })
+                    .then(response => response.json())
+                    .then(json => {
+                        const species = json;
+                        this.setState({species});
+
+                        fetch(this.state.species.evolution_chain.url, {
+                            method: 'GET'
+                        })
+
+                            .then(response => response.json())
+                            .then(json => {
+                                const evolutionChain = json;
+                                this.setState({evolutionChain,isFetching:false});
+                            });
+                    });
             });
     }
 
@@ -43,7 +64,7 @@ class App extends Component {
                         <div className="input-group">
                             <input className="form-control col-md-5 offset-md-3"
                                 type="text"
-                                placeholder="Search for a Pokemon"
+                                placeholder="Search for a Pokemon name or number"
                                 value={this.state.query}
                                 onChange={event => {this.setState({query: event.target.value})}}
                                 onKeyPress={event => {
@@ -59,10 +80,11 @@ class App extends Component {
                     </div>
 
                     {
-                        this.state.pkmnList !== null
+                        this.state.evolutionChain !== null
                             ?
                             <Pokemon
                                 pkmnList={this.state.pkmnList}
+                                evolutionChain ={this.state.evolutionChain}
                             />
                             : <div></div>
                     }
@@ -82,7 +104,6 @@ class App extends Component {
                         </div>
                     </footer>
                 </div>
-
             </div>
         )
     }

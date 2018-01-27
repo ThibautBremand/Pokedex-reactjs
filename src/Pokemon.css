@@ -13,6 +13,11 @@
     font-size: 25px;
 }
 
+.pokemonEvolName {
+    text-transform: capitalize;
+    font-size: 15px;
+}
+
 @media (max-width: 780px) {
     .pokemonName {
         font-size: 15px;
