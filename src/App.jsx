@@ -2,19 +2,25 @@ import React, { Component } from 'react';
 import './App.css';
 import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 import Pokemon from './Pokemon';
+import Loader from "./Loader";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             query: '',
-            pkmnList: null
+            pkmnList: null,
+            isFetching: false
         }
     }
 
+    /***
+     * Search function, calls the API and fills the state with the fetched data
+     * */
     search() {
         const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
         let FETCH_URL = `${BASE_URL}${this.state.query.toLowerCase()}`;
+        this.setState({isFetching:true});
 
         fetch(FETCH_URL, {
             method: 'GET'
@@ -22,7 +28,7 @@ class App extends Component {
             .then(response => response.json())
             .then(json => {
                 const pkmnList = json;
-                this.setState({pkmnList});
+                this.setState({pkmnList,isFetching:false});
             });
     }
 
@@ -58,6 +64,14 @@ class App extends Component {
                                 pkmnList={this.state.pkmnList}
                             />
                         </div>
+                        : <div></div>
+                }
+
+                {
+                    this.state.isFetching !== false
+                        ?
+                        <Loader
+                        />
                         : <div></div>
                 }
 
