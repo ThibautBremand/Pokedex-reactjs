@@ -3,6 +3,7 @@ import './App.css';
 import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 import Pokemon from './Pokemon';
 import Loader from "./Loader";
+import reactLogo from './img/react-hexagon.png'
 
 class App extends Component {
     constructor(props) {
@@ -35,7 +36,8 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <div className="App-title">Pokedex Master</div><br/>
+                <h1 className="App-title">Pokedex Master</h1>
+                <h4 className="App-title">Gotta find 'em all !</h4>
 
                 <FormGroup>
                     <InputGroup className="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
@@ -74,6 +76,10 @@ class App extends Component {
                         />
                         : <div></div>
                 }
+
+                <div class="footer">
+                    <img className="fixed-bottom reactLogo" src={reactLogo} alt="Made with ReactJS"/><span className="madeWithReact">Made with React</span>
+                </div>
 
             </div>
         )
