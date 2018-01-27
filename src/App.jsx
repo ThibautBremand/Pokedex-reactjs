@@ -12,7 +12,8 @@ class App extends Component {
             pkmnList: null,
             species:null,
             evolutionChain: null,
-            isFetching: false
+            isFetching: false,
+            pokemonFound : false
         }
     }
 
@@ -22,7 +23,7 @@ class App extends Component {
     search() {
         const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
         let FETCH_URL = `${BASE_URL}${this.state.query.toLowerCase()}`;
-        this.setState({isFetching:true});
+        this.setState({isFetching:false, pokemonFound:false});
 
         fetch(FETCH_URL, {
             method: 'GET'
@@ -32,24 +33,31 @@ class App extends Component {
                 const pkmnList = json;
                 this.setState({pkmnList});
 
-                fetch(this.state.pkmnList.species.url, {
-                    method: 'GET'
-                })
-                    .then(response => response.json())
-                    .then(json => {
-                        const species = json;
-                        this.setState({species});
+                /* Checks if the query entered by the user retrieves Pokemon results or not */
+                if ("species" in json) {
+                    this.setState({isFetching:true, pokemonFound : true})
+                    fetch(this.state.pkmnList.species.url, {
+                        method: 'GET'
+                    })
+                        .then(response => response.json())
+                        .then(json => {
+                            const species = json;
+                            this.setState({species});
 
-                        fetch(this.state.species.evolution_chain.url, {
-                            method: 'GET'
-                        })
+                            fetch(this.state.species.evolution_chain.url, {
+                                method: 'GET'
+                            })
 
-                            .then(response => response.json())
-                            .then(json => {
-                                const evolutionChain = json;
-                                this.setState({evolutionChain,isFetching:false});
-                            });
-                    });
+                                .then(response => response.json())
+                                .then(json => {
+                                    const evolutionChain = json;
+                                    this.setState({evolutionChain, isFetching: false});
+                                });
+                        });
+                }
+                else {
+                    this.setState({pokemonFound : false})
+                }
             });
     }
 
@@ -80,12 +88,15 @@ class App extends Component {
                     </div>
 
                     {
-                        this.state.evolutionChain !== null
+                        this.state.pokemonFound === true
                             ?
-                            <Pokemon
-                                pkmnList={this.state.pkmnList}
-                                evolutionChain ={this.state.evolutionChain}
-                            />
+                            this.state.evolutionChain !== null
+                                ?
+                                <Pokemon
+                                    pkmnList={this.state.pkmnList}
+                                    evolutionChain ={this.state.evolutionChain}
+                                />
+                                : <div></div>
                             : <div></div>
                     }
 
