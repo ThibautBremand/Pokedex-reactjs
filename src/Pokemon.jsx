@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
-import { Panel } from 'react-bootstrap';
+/*import { Col, Panel } from 'react-bootstrap';*/
 import './Pokemon.css';
 
 class Pokemon extends Component {
@@ -9,20 +8,38 @@ class Pokemon extends Component {
         const BULBAPEDIA_URL = 'https://bulbapedia.bulbagarden.net/wiki/'
         let currentBulbapediaLink = `${BULBAPEDIA_URL}${this.props.pkmnList.forms[0].name}`
         return (
-            <Panel>
-                <Panel.Body>
-                    <div>
-                        <div className="Form-text text">
-                            <br/>
-                                <div className="row pokemonName">{this.props.pkmnList.forms[0].name}</div>
-                                <img src={this.props.pkmnList.sprites['front_default']} alt="Not found"/>
-                                <div className="row"><a href={this.props.pkmnList.forms[0].url} target="_blank">Link</a></div>
-                                <div className="row"><a href={currentBulbapediaLink} target="_blank">Bulbapedia</a></div>
-                                <br/>
+            <div className="card Form-text">
+                <div className="card-body">
+                    <div className="row">
+
+                        { /*Pokemon's name, photo and Bulbapedia link*/ }
+                        <div className="col leftColumn">
+                            <div className="row pokemonName center-block">{this.props.pkmnList.forms[0].name} #{this.props.pkmnList.id}</div>
+                            <div className="row"><img className="center-block" src={this.props.pkmnList.sprites['front_default']} alt="Not found"/></div>
+                            <div className="row"><a className="center-block" href={currentBulbapediaLink} target="_blank">Bulbapedia</a></div>
+                        </div>
+
+                        { /*Pokemon's stats*/ }
+                        <div className="col leftColumn">
+                        {
+                            Object.values(this.props.pkmnList.stats).map((stat) => {
+                                return (
+                                    <div>
+                                        <div className="row">{stat.stat.name} : {stat.base_stat}</div>
+                                    </div>
+                                )
+                            })
+                        }
+                        </div>
+
+                        <div className="col leftColumn">
+                            <div className="row pokemonName center-block">{this.props.pkmnList.forms[0].name} #{this.props.pkmnList.id}</div>
+                            <div className="row"><img className="center-block" src={this.props.pkmnList.sprites['front_default']} alt="Not found"/></div>
+                            <div className="row"><a className="center-block" href={currentBulbapediaLink} target="_blank">Bulbapedia</a></div>
                         </div>
                     </div>
-                </Panel.Body>
-            </Panel>
+                </div>
+            </div>
         )
     }
 }

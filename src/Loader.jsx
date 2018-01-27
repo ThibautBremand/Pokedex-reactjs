@@ -5,11 +5,11 @@ class Loader extends Component {
     render() {
         return (
             <div id="loading">
-                <div class="pokeball" id="normal"></div>
-                <div class="pokeball" id="great"></div>
-                <div class="pokeball" id="ultra"></div>
-                <div class="pokeball" id="master"></div>
-                <div class="pokeball" id="safari"></div>
+                <div className="pokeball" id="normal"></div>
+                <div className="pokeball" id="great"></div>
+                <div className="pokeball" id="ultra"></div>
+                <div className="pokeball" id="master"></div>
+                <div className="pokeball" id="safari"></div>
             </div>
         )
     }

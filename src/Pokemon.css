@@ -1,5 +1,5 @@
 .Form-text {
-    background-color:white;
+    background: rgba(224, 231, 197, 0.8);
 }
 
 .Form-text a {
@@ -11,4 +11,15 @@
     text-transform: capitalize;
     font-weight: bold;
     font-size: 25px;
+}
+
+.leftColumn {
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
