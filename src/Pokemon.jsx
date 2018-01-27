@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-/*import { Col, Panel } from 'react-bootstrap';*/
 import './Pokemon.css';
 
 class Pokemon extends Component {
@@ -13,20 +12,29 @@ class Pokemon extends Component {
                     <div className="row">
 
                         { /*Pokemon's name, photo and Bulbapedia link*/ }
-                        <div className="col leftColumn">
+                        <div className="col-md-4 col-xs-4 leftColumn">
                             <div className="row pokemonName center-block">{this.props.pkmnList.forms[0].name} #{this.props.pkmnList.id}</div>
                             <div className="row"><img className="center-block" src={this.props.pkmnList.sprites['front_default']} alt="Not found"/></div>
+                            <div className="">
+                            {
+                                Object.values(this.props.pkmnList.types).map((type) => {
+                                    return (
+                                        <div className="center-block type">
+                                            <span>{type.type.name}</span>
+                                        </div>
+                                    )
+                                })
+                            }
+                            </div>
                             <div className="row"><a className="center-block" href={currentBulbapediaLink} target="_blank">Bulbapedia</a></div>
                         </div>
 
                         { /*Pokemon's stats*/ }
-                        <div className="col leftColumn">
+                        <div className="col-md-4 col-xs-8 leftColumn">
                         {
                             Object.values(this.props.pkmnList.stats).map((stat) => {
                                 return (
-                                    <div>
-                                        <div className="row">{stat.stat.name} : {stat.base_stat}</div>
-                                    </div>
+                                    <div className="row"><span className="stats">{stat.stat.name} </span> : {stat.base_stat}</div>
                                 )
                             })
                         }

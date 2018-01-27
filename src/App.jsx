@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-/*import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';*/
 import Pokemon from './Pokemon';
 import Loader from "./Loader";
 import reactLogo from './img/react-hexagon.png'

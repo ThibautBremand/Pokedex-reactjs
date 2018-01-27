@@ -13,9 +13,30 @@
     font-size: 25px;
 }
 
+@media (max-width: 780px) {
+    .pokemonName {
+        font-size: 15px;
+    }
+
+    .Form-text a {
+        font-size: 12px;
+    }
+}
+
 .leftColumn {
     margin-top:5px;
     margin-bottom:5px;
+}
+
+.stats {
+    margin-left:5px;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.type {
+    text-transform: capitalize;
+    font-weight: bold;
 }
 
 .center-block {
