@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Pokemon from './Pokemon';
 import Loader from "./Loader";
-import reactLogo from './img/react-hexagon.png'
+import ReactFooter from "./ReactFooter";
 
 class App extends Component {
     constructor(props) {
@@ -108,12 +108,8 @@ class App extends Component {
                             : <div></div>
                     }
 
-                    <footer className="footer">
-                        <div className="container">
-                            <img className="reactLogo" src={reactLogo} alt="Made with ReactJS"/>
-                            <span className="madeWithReact">Made with React</span>
-                        </div>
-                    </footer>
+                    <ReactFooter
+                    />
                 </div>
             </div>
         )
