@@ -1,4 +1,4 @@
-## Pokedex made with **ReactJS 16** and **Twitter Bootstrap**. 
+## Pokedex made with **ReactJS 16** and **Twitter Bootstrap 4**. 
 It calls the API from https://pokeapi.co
 
 In order to display this data (Name, Sprite, Stats, Evolution chain), three consecutive API calls are made to pokeapi.
