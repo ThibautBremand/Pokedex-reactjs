@@ -1,3 +1,13 @@
+## Pokedex made with **ReactJS 16** and **Twitter Bootstrap**. 
+It calls the API from https://pokeapi.co
+
+In order to display this data (Name, Sprite, Stats, Evolution chain), three consecutive API calls are made to pokeapi.
+- First API call in order to get the ***name***, the ***sprite***, the ***stats***, and the ***API link to get more details about this Pokemon related species***.
+- Then, we call the Pokemon species API link, which gives us more details about the species, and the ***API link to get the evolution chain***.
+- Finally, we call the Evolution chain API link in order to get all ***the evolution chain***, and to display it.
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
