@@ -3,17 +3,23 @@ import './App.css';
 import Pokemon from './Pokemon';
 import Loader from "./Loader";
 import ReactFooter from "./ReactFooter";
+import bluePokeball from './img/blue_pokeball.png'
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             query: '',
-            pkmnList: null,
-            species:null,
-            evolutionChain: null,
             isFetching: false,
-            pokemonFound : false
+            pokemonFound : false,
+
+            name : '',
+            id : '',
+            types : [],
+            sprite : '',
+            stats : [],
+            evolChain : [],
+            moves : []
         }
         this.newPokemon = this.newPokemon.bind(this);
         this.BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
@@ -32,6 +38,8 @@ class App extends Component {
      * Fetch API function, calls the API using the given parameter
      */
     fetchAPI(FETCH_URL) {
+        this.setState({name : '', id : '', sprite : '', types : [], stats : [], evolChain : [], moves : []})
+
         /* Queries the API with the user's input */
         fetch(FETCH_URL, {
             method: 'GET'
@@ -61,6 +69,58 @@ class App extends Component {
                                 .then(json => {
                                     const evolutionChain = json;
                                     this.setState({evolutionChain, isFetching: false});
+
+                                    /* Retrieves name */
+                                    let name = `${pkmnList.forms[0].name} #${pkmnList.id}`
+                                    this.setState({name})
+                                    this.setState({id : pkmnList.id})
+
+                                    /* Retrieves sprite */
+                                    this.setState({sprite: pkmnList.sprites['front_default']})
+
+                                    /* Retrieves types */
+                                    pkmnList.types.forEach((type) => {
+                                        this.setState({
+                                            types: this.state.types.concat([type.type.name])
+                                        })
+                                    })
+
+                                    /* Retrieves stats */
+                                    pkmnList.stats.forEach((stat) => {
+                                        this.setState({
+                                            stats: this.state.stats.concat([{"id" : stat.stat.name, "value" : stat.base_stat}])
+                                        })
+                                    })
+
+                                    /* Retrieves evolution chain */
+                                    let currentEvolution = evolutionChain.chain.evolves_to
+                                    this.setState({
+                                        evolChain: this.state.evolChain.concat([evolutionChain.chain.species.name])
+                                    })
+                                    if (currentEvolution[0] !== null && currentEvolution.length > 0) {
+                                        this.setState({
+                                            evolChain: this.state.evolChain.concat([currentEvolution[0].species.name])
+                                        })
+                                    }
+                                    if (currentEvolution[0].evolves_to[0] !== null && currentEvolution[0].evolves_to.length > 0) {
+                                        this.setState({
+                                            evolChain: this.state.evolChain.concat(currentEvolution[0].evolves_to[0].species.name)
+                                        })
+                                    }
+
+                                    /* Retrieves moves */
+                                    pkmnList.moves.forEach((move) => {
+                                        move.version_group_details.forEach((move_version) => {
+                                            if (move_version.version_group.name === 'sun-moon') {
+                                                /* Gen 7 move, we can display it */
+                                                if (move_version.move_learn_method.name === 'level-up') {
+                                                    this.setState({
+                                                        moves: this.state.moves.concat([{"level" : move_version.level_learned_at, "move" : move.move.name}])
+                                                    })
+                                                }
+                                            }
+                                        })
+                                    })
                                 });
                         });
                 }
@@ -112,9 +172,15 @@ class App extends Component {
                             this.state.evolutionChain !== null
                                 ?
                                 <Pokemon
-                                    pkmnList={this.state.pkmnList}
-                                    evolutionChain ={this.state.evolutionChain}
                                     newPokemon = {this.newPokemon}
+
+                                    name = {this.state.name}
+                                    id = {this.state.id}
+                                    types = {this.state.types}
+                                    sprite = {this.state.sprite}
+                                    stats = {this.state.stats}
+                                    evolChain = {this.state.evolChain}
+                                    moves = {this.state.moves}
                                 />
                                 : <div></div>
                             : <div></div>
@@ -127,6 +193,7 @@ class App extends Component {
                             />
                             : <div></div>
                     }
+                    <img className="bluePokeball" src={bluePokeball} alt=""/>
 
                     <ReactFooter
                     />

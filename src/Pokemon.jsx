@@ -8,7 +8,7 @@ class Pokemon extends Component {
      * */
     nextPokemon = () => {
         this.props.newPokemon(
-            parseInt(this.props.pkmnList.id, 10) + 1
+            parseInt(this.props.id, 10) + 1
         );
     }
 
@@ -17,7 +17,7 @@ class Pokemon extends Component {
      * */
     previousPokemon = () => {
         this.props.newPokemon(
-            parseInt(this.props.pkmnList.id, 10) - 1
+            parseInt(this.props.id, 10) - 1
         );
     }
 
@@ -30,8 +30,7 @@ class Pokemon extends Component {
 
     render() {
         const BULBAPEDIA_URL = 'https://bulbapedia.bulbagarden.net/wiki/'
-        let currentBulbapediaLink = `${BULBAPEDIA_URL}${this.props.pkmnList.forms[0].name}`
-        let currentEvolution = this.props.evolutionChain.chain.evolves_to
+        let currentBulbapediaLink = `${BULBAPEDIA_URL}${this.props.name}`
 
         return (
             <div>
@@ -41,13 +40,20 @@ class Pokemon extends Component {
 
                             { /*Pokemon's name, photo and Bulbapedia link*/ }
                             <div className="col-md-5 col-xs-6 leftColumn">
-                                <div className="row pokemonName center-block">{this.props.pkmnList.forms[0].name} #{this.props.pkmnList.id}</div>
-                                <div className="row"><img className="center-block" src={this.props.pkmnList.sprites['front_default']} alt="Not found"/></div>
+                                <div className="row pokemonName center-block">{this.props.name}</div>
                                 {
-                                    Object.values(this.props.pkmnList.types).map((type, k) => {
+                                    this.props.sprite !== '' ?
+                                        <div className="row"><img className="center-block" src={this.props.sprite}
+                                                              alt="Not found"/></div>
+                                    :
+                                        <div></div>
+                                }
+                                { /* Types */ }
+                                {
+                                    this.props.types.map((type, k) => {
                                         return (
                                             <div key={k} className="center-block type">
-                                                <span >{type.type.name}</span>
+                                                <span >{type}</span>
                                             </div>
                                         )
                                     })
@@ -58,47 +64,47 @@ class Pokemon extends Component {
                             { /*Pokemon's stats*/ }
                             <div className="col-md-3 col-xs-6 leftColumn">
                             {
-                                Object.values(this.props.pkmnList.stats).map((stat, k) => {
+                                this.props.stats.map((stat, k) => {
                                     return (
-                                        <div className="row" key={k}><span className="stats">{stat.stat.name} </span> : {stat.base_stat}</div>
+                                        <div className="row" key={k}><span className="stats">{stat["id"]} </span> : {stat["value"]}</div>
                                     )
                                 })
                             }
                             </div>
 
-                            {
-                                this.props.evolutionChain !== null
-                                ?
-                                    <div className="col leftColumn">
-                                        <div className="row pokemonName center-block">Evolution chain</div>
-                                        <button className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(this.props.evolutionChain.chain.species.name)}>{this.props.evolutionChain.chain.species.name}</button>
-
-                                        {
-                                            currentEvolution[0] !== null && currentEvolution.length > 0
-                                            ?
-                                                <div>
-                                                    <button className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(currentEvolution[0].species.name)}>{currentEvolution[0].species.name}</button>
-                                                    {
-                                                        currentEvolution[0].evolves_to[0] !== null && currentEvolution[0].evolves_to.length > 0
-                                                        ?
-                                                            <button className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(currentEvolution[0].evolves_to[0].species.name)}>{currentEvolution[0].evolves_to[0].species.name}</button>
-                                                        :
-                                                        <div></div>
-                                                    }
-                                                </div>
-                                            :
-                                            <div></div>
-
-                                        }
-                                    </div>
-                                :
-                                    <div></div>
+                            { /* Evolution chain */
+                                <div className="col leftColumn">
+                                    <div className="row pokemonName center-block">Evolution chain</div>
+                                        {this.props.evolChain.map((evol, k) => {
+                                            return (
+                                                <button key={k} className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(evol)}>{evol}</button>
+                                            )
+                                        })
+                                    }
+                                </div>
                             }
+
+                        </div>
+
+                        { /* Moves */ }
+                        <div className="col-md-5 col-xs-6 leftColumn">
+                            <div className="row">
+                                <div className="col">
+                                    <div className="row pokemonName movesHeader center-block">Possible moves (Gen 7)</div>
+                                    {
+                                        this.props.moves.sort((a, b) => a.itemM > b.itemM).map((item, i) => {
+                                            return (
+                                                <div className="moves" key={i}> Level {item["level"]} - {item["move"]}</div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 {
-                    parseInt(this.props.pkmnList.id, 10) > 1
+                    parseInt(this.props.id, 10) > 1
                     ?
                         <button onClick={() => this.previousPokemon()} className="btn btn-secondary navPokemon navPokemonLeft"><i className="fa fa-arrow-left" aria-hidden="true"></i></button>
                     :

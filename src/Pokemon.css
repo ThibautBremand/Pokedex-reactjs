@@ -62,3 +62,14 @@
 .navPokemonLeft {
     margin-right:10px;
 }
+
+.moves {
+    text-transform: capitalize;
+    text-align: left;
+    margin-left:10px;
+}
+
+.movesHeader {
+    margin-top:15px;
+    margin-bottom:5px;
+}
