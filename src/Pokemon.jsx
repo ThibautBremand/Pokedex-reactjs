@@ -21,6 +21,13 @@ class Pokemon extends Component {
         );
     }
 
+    /***
+     * Calls props to refresh and display the clicked Pokemon
+     * */
+    clickedPokemon = (query) => {
+        this.props.newPokemon(query);
+    }
+
     render() {
         const BULBAPEDIA_URL = 'https://bulbapedia.bulbagarden.net/wiki/'
         let currentBulbapediaLink = `${BULBAPEDIA_URL}${this.props.pkmnList.forms[0].name}`
@@ -64,17 +71,17 @@ class Pokemon extends Component {
                                 ?
                                     <div className="col leftColumn">
                                         <div className="row pokemonName center-block">Evolution chain</div>
-                                        <div className="row center-block pokemonEvolName">{this.props.evolutionChain.chain.species.name}</div>
+                                        <button className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(this.props.evolutionChain.chain.species.name)}>{this.props.evolutionChain.chain.species.name}</button>
 
                                         {
                                             currentEvolution[0] !== null && currentEvolution.length > 0
                                             ?
                                                 <div>
-                                                    <div className="row center-block pokemonEvolName">{currentEvolution[0].species.name}</div>
+                                                    <button className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(currentEvolution[0].species.name)}>{currentEvolution[0].species.name}</button>
                                                     {
                                                         currentEvolution[0].evolves_to[0] !== null && currentEvolution[0].evolves_to.length > 0
                                                         ?
-                                                        <div className="row center-block pokemonEvolName">{currentEvolution[0].evolves_to[0].species.name}</div>
+                                                            <button className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(currentEvolution[0].evolves_to[0].species.name)}>{currentEvolution[0].evolves_to[0].species.name}</button>
                                                         :
                                                         <div></div>
                                                     }
@@ -93,11 +100,11 @@ class Pokemon extends Component {
                 {
                     parseInt(this.props.pkmnList.id, 10) > 1
                     ?
-                        <button onClick={() => this.previousPokemon()} className="btn btn-secondary navPokemon navPokemonLeft"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                        <button onClick={() => this.previousPokemon()} className="btn btn-secondary navPokemon navPokemonLeft"><i className="fa fa-arrow-left" aria-hidden="true"></i></button>
                     :
                         <div></div>
                 }
-                <button onClick={() => this.nextPokemon()} className="btn btn-secondary navPokemon navPokemonRight"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                <button onClick={() => this.nextPokemon()} className="btn btn-secondary navPokemon navPokemonRight"><i className="fa fa-arrow-right" aria-hidden="true"></i></button>
             </div>
         )
     }
