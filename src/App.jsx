@@ -15,16 +15,24 @@ class App extends Component {
             isFetching: false,
             pokemonFound : false
         }
+        this.newPokemon = this.newPokemon.bind(this);
+        this.BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
     }
 
     /***
-     * Search function, calls the API and fills the state with the fetched data
+     * Search function from user input, calls the API and fills the state with the fetched data
      * */
     search() {
-        const BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
-        let FETCH_URL = `${BASE_URL}${this.state.query.toLowerCase()}`;
+        let FETCH_URL = `${this.BASE_URL}${this.state.query.toLowerCase()}`;
         this.setState({isFetching:false, pokemonFound:false});
+        this.fetchAPI(FETCH_URL);
+    }
 
+    /***
+     * Fetch API function, calls the API using the given parameter
+     */
+    fetchAPI(FETCH_URL) {
+        /* Queries the API with the user's input */
         fetch(FETCH_URL, {
             method: 'GET'
         })
@@ -35,6 +43,7 @@ class App extends Component {
 
                 /* Checks if the query entered by the user retrieves Pokemon results or not */
                 if ("species" in json) {
+                    /* Result found by the API, we can query the species and evolution chain */
                     this.setState({isFetching:true, pokemonFound : true})
                     fetch(this.state.pkmnList.species.url, {
                         method: 'GET'
@@ -56,9 +65,19 @@ class App extends Component {
                         });
                 }
                 else {
+                    /* The user entered a wrong query */
                     this.setState({pokemonFound : false})
                 }
             });
+    }
+
+    /**
+     * Refreshes the displayed Pokemon, for example when the user clicks on the Next button
+     */
+    newPokemon(query) {
+        let FETCH_URL = `${this.BASE_URL}${query}`;
+        this.setState({isFetching:false, pokemonFound:false});
+        this.fetchAPI(FETCH_URL);
     }
 
     render() {
@@ -95,6 +114,7 @@ class App extends Component {
                                 <Pokemon
                                     pkmnList={this.state.pkmnList}
                                     evolutionChain ={this.state.evolutionChain}
+                                    newPokemon = {this.newPokemon}
                                 />
                                 : <div></div>
                             : <div></div>

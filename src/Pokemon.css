@@ -49,3 +49,15 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.navPokemon {
+    margin-top:10px;
+}
+
+.navPokemonRight {
+    margin-left:10px;
+}
+
+.navPokemonLeft {
+    margin-right:10px;
+}
