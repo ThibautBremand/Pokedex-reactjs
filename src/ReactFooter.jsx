@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './ReactFooter.css';
 import reactLogo from './img/react-hexagon.png'
 
 class ReactFooter extends Component {
