@@ -35,7 +35,7 @@
 }
 
 .stats {
-    margin-left:5px;
+
     text-transform: capitalize;
     font-weight: bold;
 }
@@ -63,10 +63,14 @@
     margin-right:10px;
 }
 
-.moves {
+.movesName {
     text-transform: capitalize;
     text-align: left;
-    margin-left:10px;
+}
+
+.movesLevel {
+    text-transform: capitalize;
+    text-align: left;
 }
 
 .movesHeader {

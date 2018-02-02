@@ -63,19 +63,24 @@ class Pokemon extends Component {
 
                             { /*Pokemon's stats*/ }
                             <div className="col-md-3 col-xs-6 leftColumn">
-                            {
-                                this.props.stats.map((stat, k) => {
-                                    return (
-                                        <div className="row" key={k}><span className="stats">{stat["id"]} </span> : {stat["value"]}</div>
-                                    )
-                                })
-                            }
+                                    <div className="row pokemonName center-block">Stats</div>
+                                {
+                                    this.props.stats.map((stat, k) => {
+                                        return (
+                                            <div className="row" key={k}>
+                                                <div className="stats">{stat["id"]}:</div><div className="">{stat["value"]}</div>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
 
                             { /* Evolution chain */
                                 <div className="col leftColumn">
-                                    <div className="row pokemonName center-block">Evolution chain</div>
-                                        {this.props.evolChain.map((evol, k) => {
+                                    <div className="row pokemonName center-block">Evolution chain
+                                    </div>
+                                    {
+                                        this.props.evolChain.map((evol, k) => {
                                             return (
                                                 <button key={k} className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(evol)}>{evol}</button>
                                             )
@@ -83,7 +88,6 @@ class Pokemon extends Component {
                                     }
                                 </div>
                             }
-
                         </div>
 
                         { /* Moves */ }
@@ -94,7 +98,11 @@ class Pokemon extends Component {
                                     {
                                         this.props.moves.sort((a, b) => a.itemM > b.itemM).map((item, i) => {
                                             return (
-                                                <div className="moves" key={i}> Level {item["level"]} - {item["move"]}</div>
+                                                <div className="row" key={i}>
+                                                    <div className="col-md-1"></div>
+                                                    <div className="movesLevel col">Level {item["level"]}</div>
+                                                    <div className="movesName col">{item["move"]}</div>
+                                                </div>
                                             )
                                         })
                                     }
