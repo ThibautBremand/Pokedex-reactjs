@@ -10,7 +10,7 @@ class Pokemon extends Component {
         this.props.newPokemon(
             parseInt(this.props.id, 10) + 1
         );
-    }
+    };
 
     /***
      * Calls props to refresh and display the previous Pokemon
@@ -19,14 +19,14 @@ class Pokemon extends Component {
         this.props.newPokemon(
             parseInt(this.props.id, 10) - 1
         );
-    }
+    };
 
     /***
      * Calls props to refresh and display the clicked Pokemon
      * */
     clickedPokemon = (query) => {
         this.props.newPokemon(query);
-    }
+    };
 
     render() {
         const BULBAPEDIA_URL = 'https://bulbapedia.bulbagarden.net/wiki/'
@@ -63,19 +63,33 @@ class Pokemon extends Component {
 
                             { /*Pokemon's stats*/ }
                             <div className="col-md-4 col-xs-6 leftColumn">
-                                    <div className="row pokemonName center-block">Stats</div>
-                                {
-                                    this.props.stats.map((stat, k) => {
-                                        return (
-                                            <div className="col" key={k}>
-                                                <div className="row statsList">
-                                                    <div className="stats">{stat["id"]}:</div>
-                                                    <div className="statsValue">{stat["value"]}</div>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
+                                <div className="row pokemonName center-block">Stats</div>
+                                <div className="col">
+                                    <div className="row statsList">
+                                        <div className="stats">HP :</div>
+                                        <div className="statsValue">{this.props.detailedStats.hp}</div>
+                                    </div>
+                                    <div className="row statsList">
+                                        <div className="stats">Attack :</div>
+                                        <div className="statsValue">{this.props.detailedStats.atk}</div>
+                                    </div>
+                                    <div className="row statsList">
+                                        <div className="stats">Defense :</div>
+                                        <div className="statsValue">{this.props.detailedStats.def}</div>
+                                    </div>
+                                    <div className="row statsList">
+                                        <div className="stats">Special Attack :</div>
+                                        <div className="statsValue">{this.props.detailedStats.spAtk}</div>
+                                    </div>
+                                    <div className="row statsList">
+                                        <div className="stats">Special Defense :</div>
+                                        <div className="statsValue">{this.props.detailedStats.spDef}</div>
+                                    </div>
+                                    <div className="row statsList">
+                                        <div className="stats">Speed :</div>
+                                        <div className="statsValue">{this.props.detailedStats.spd}</div>
+                                    </div>
+                                </div>
                             </div>
 
                             { /* Evolution chain */

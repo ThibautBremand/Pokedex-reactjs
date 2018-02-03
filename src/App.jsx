@@ -9,18 +9,25 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            query: '',
-            isFetching: false,
+            query : '',
+            isFetching : false,
             pokemonFound : false,
 
             name : '',
             id : '',
             types : [],
             sprite : '',
-            stats : [],
+            detailedStats : {
+                hp : '',
+                atk : '',
+                def : '',
+                spAtk : '',
+                spDef : '',
+                spd : ''
+            },
             evolChain : [],
             moves : []
-        }
+        };
         this.newPokemon = this.newPokemon.bind(this);
         this.BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
     }
@@ -38,7 +45,25 @@ class App extends Component {
      * Fetch API function, calls the API using the given parameter
      */
     fetchAPI(FETCH_URL) {
-        this.setState({name : '', id : '', sprite : '', types : [], stats : [], evolChain : [], moves : []})
+        /* Used to store the detailed stats into the state */
+        let detailedStats = this.state.detailedStats;
+
+        this.setState({
+            name : '',
+            id : '',
+            sprite : '',
+            types : [],
+            detailedStats : {
+                hp : '',
+                atk : '',
+                def : '',
+                spAtk : '',
+                spDef : '',
+                spd : ''
+            },
+            evolChain : [],
+            moves : []
+        });
 
         /* Queries the API with the user's input */
         fetch(FETCH_URL, {
@@ -83,20 +108,46 @@ class App extends Component {
                                         this.setState({
                                             types: this.state.types.concat([type.type.name])
                                         })
-                                    })
+                                    });
 
                                     /* Retrieves stats */
                                     pkmnList.stats.forEach((stat) => {
-                                        this.setState({
-                                            stats: this.state.stats.concat([{"id" : stat.stat.name, "value" : stat.base_stat}])
-                                        })
-                                    })
+                                        if (stat.stat.name === 'hp') {
+                                            detailedStats.hp = stat.base_stat;
+                                            this.setState({detailedStats});
+                                        }
+
+                                        if (stat.stat.name === 'attack') {
+                                            detailedStats.atk = stat.base_stat;
+                                            this.setState({detailedStats});
+                                        }
+
+                                        if (stat.stat.name === 'defense') {
+                                            detailedStats.def = stat.base_stat;
+                                            this.setState({detailedStats});
+                                        }
+
+                                        if (stat.stat.name === 'special-attack') {
+                                            detailedStats.spAtk = stat.base_stat;
+                                            this.setState({detailedStats});
+                                        }
+
+                                        if (stat.stat.name === 'special-defense') {
+                                            detailedStats.spDef = stat.base_stat;
+                                            this.setState({detailedStats});
+                                        }
+
+                                        if (stat.stat.name === 'speed') {
+                                            detailedStats.spd = stat.base_stat;
+                                            this.setState({detailedStats});
+                                        }
+                                    });
 
                                     /* Retrieves evolution chain */
-                                    let currentEvolution = evolutionChain.chain.evolves_to
+                                    let currentEvolution = evolutionChain.chain.evolves_to;
                                     this.setState({
                                         evolChain: this.state.evolChain.concat([evolutionChain.chain.species.name])
-                                    })
+                                    });
                                     if (currentEvolution[0] !== null && currentEvolution.length > 0) {
                                         this.setState({
                                             evolChain: this.state.evolChain.concat([currentEvolution[0].species.name])
@@ -178,7 +229,7 @@ class App extends Component {
                                     id = {this.state.id}
                                     types = {this.state.types}
                                     sprite = {this.state.sprite}
-                                    stats = {this.state.stats}
+                                    detailedStats = {this.state.detailedStats}
                                     evolChain = {this.state.evolChain}
                                     moves = {this.state.moves}
                                 />
