@@ -113,12 +113,12 @@ class Pokemon extends Component {
                                 <div className="col">
                                     <div className="row pokemonName movesHeader center-block">Possible moves (Gen 7)</div>
                                     {
-                                        this.props.moves.sort((a, b) => a.itemM > b.itemM).map((item, i) => {
+                                        this.props.detailedMoves.map((move, i) => {
                                             return (
                                                 <div className="row" key={i}>
                                                     <div className="col-md-1"></div>
-                                                    <div className="movesLevel col">Level {item["level"]}</div>
-                                                    <div className="movesName col">{item["move"]}</div>
+                                                    <div className="movesLevel col">Level {move.level}</div>
+                                                    <div className="movesName col">{move.name}</div>
                                                 </div>
                                             )
                                         })

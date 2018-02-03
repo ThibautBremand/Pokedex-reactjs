@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash'
 import './App.css';
 import Pokemon from './Pokemon';
 import Loader from "./Loader";
@@ -26,7 +27,7 @@ class App extends Component {
                 spd : ''
             },
             evolChain : [],
-            moves : []
+            detailedMoves : []
         };
 
         this.newPokemon = this.newPokemon.bind(this);
@@ -48,7 +49,10 @@ class App extends Component {
      * */
     search() {
         let FETCH_URL = `${this.BASE_URL}${this.state.query.toLowerCase()}`;
-        this.setState({isFetching:false, pokemonFound:false});
+        this.setState({
+            isFetching:false,
+            pokemonFound:false
+        });
         this.fetchAPI(FETCH_URL);
     }
 
@@ -58,6 +62,9 @@ class App extends Component {
     fetchAPI(FETCH_URL) {
         /* Used to store the detailed stats into the state */
         let detailedStats = this.state.detailedStats;
+
+        /* Used to store the datailed moves into the state */
+        let detailedMoves = this.state.detailedMoves;
 
         this.setState({
             name : '',
@@ -73,7 +80,7 @@ class App extends Component {
                 spd : ''
             },
             evolChain : [],
-            moves : []
+            detailedMoves : []
         });
 
         /* Queries the API with the user's input */
@@ -83,19 +90,26 @@ class App extends Component {
             .then(response => response.json())
             .then(json => {
                 const pkmnList = json;
-                this.setState({pkmnList});
+                this.setState({
+                    pkmnList
+                });
 
                 /* Checks if the query entered by the user retrieves Pokemon results or not */
                 if ("species" in json) {
                     /* Result found by the API, we can query the species and evolution chain */
-                    this.setState({isFetching:true, pokemonFound : true})
+                    this.setState({
+                        isFetching:true,
+                        pokemonFound : true
+                    })
                     fetch(this.state.pkmnList.species.url, {
                         method: 'GET'
                     })
                         .then(response => response.json())
                         .then(json => {
                             const species = json;
-                            this.setState({species});
+                            this.setState({
+                                species
+                            });
 
                             fetch(this.state.species.evolution_chain.url, {
                                 method: 'GET'
@@ -104,15 +118,22 @@ class App extends Component {
                                 .then(response => response.json())
                                 .then(json => {
                                     const evolutionChain = json;
-                                    this.setState({evolutionChain, isFetching: false});
+                                    this.setState({
+                                        evolutionChain,
+                                        isFetching: false
+                                    });
 
                                     /* Retrieves name */
-                                    let name = `${pkmnList.forms[0].name} #${pkmnList.id}`
-                                    this.setState({name})
-                                    this.setState({id : pkmnList.id})
+                                    let name = `${pkmnList.forms[0].name} #${pkmnList.id}`;
+                                    this.setState({
+                                        name
+                                    });
+                                    this.setState({
+                                        id : pkmnList.id
+                                    });
 
                                     /* Retrieves sprite */
-                                    this.setState({sprite: pkmnList.sprites['front_default']})
+                                    this.setState({sprite: pkmnList.sprites['front_default']});
 
                                     /* Retrieves types */
                                     pkmnList.types.forEach((type) => {
@@ -157,17 +178,24 @@ class App extends Component {
                                     /* Retrieves evolution chain */
                                     let currentEvolution = evolutionChain.chain.evolves_to;
                                     this.setState({
-                                        evolChain: this.state.evolChain.concat([evolutionChain.chain.species.name])
+                                        evolChain: this.state.evolChain.concat(
+                                            [evolutionChain.chain.species.name]
+                                        )
                                     });
                                     if (currentEvolution[0] !== null && currentEvolution.length > 0) {
                                         this.setState({
-                                            evolChain: this.state.evolChain.concat([currentEvolution[0].species.name])
-                                        })
-                                    }
-                                    if (currentEvolution[0].evolves_to[0] !== null && currentEvolution[0].evolves_to.length > 0) {
-                                        this.setState({
-                                            evolChain: this.state.evolChain.concat(currentEvolution[0].evolves_to[0].species.name)
-                                        })
+                                            evolChain: this.state.evolChain.concat(
+                                                [currentEvolution[0].species.name]
+                                            )
+                                        });
+
+                                        if (currentEvolution[0].evolves_to[0] !== null && currentEvolution[0].evolves_to.length > 0) {
+                                            this.setState({
+                                                evolChain: this.state.evolChain.concat(
+                                                    currentEvolution[0].evolves_to[0].species.name
+                                                )
+                                            })
+                                        }
                                     }
 
                                     /* Retrieves moves */
@@ -176,13 +204,25 @@ class App extends Component {
                                             if (move_version.version_group.name === 'sun-moon') {
                                                 /* Gen 7 move, we can display it */
                                                 if (move_version.move_learn_method.name === 'level-up') {
+                                                    detailedMoves = {
+                                                        level : move_version.level_learned_at,
+                                                        name : move.move.name
+                                                    };
                                                     this.setState({
-                                                        moves: this.state.moves.concat([{"level" : move_version.level_learned_at, "move" : move.move.name}])
+                                                        detailedMoves: this.state.detailedMoves.concat(detailedMoves)
                                                     })
                                                 }
                                             }
                                         })
-                                    })
+                                    });
+
+                                    /* Order moves by ascending */
+                                    let sortedDetailedMoves = _.sortBy(this.state.detailedMoves, 'level', function(n) {
+                                        return Math.sin(n);
+                                    });
+                                    this.setState({
+                                        detailedMoves:sortedDetailedMoves
+                                    });
                                 });
                         });
                 }
@@ -242,7 +282,7 @@ class App extends Component {
                                     sprite = {this.state.sprite}
                                     detailedStats = {this.state.detailedStats}
                                     evolChain = {this.state.evolChain}
-                                    moves = {this.state.moves}
+                                    detailedMoves = {this.state.detailedMoves}
                                 />
                                 : <div></div>
                             : <div></div>
