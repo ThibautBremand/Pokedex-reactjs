@@ -10,24 +10,25 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            query : '',
-            isFetching : false,
-            pokemonFound : false,
+            query: '',
+            isFetching: false,
+            pokemonFound: false,
 
-            name : '',
-            id : '',
-            types : [],
-            sprite : '',
-            detailedStats : {
-                hp : '',
-                atk : '',
-                def : '',
-                spAtk : '',
-                spDef : '',
-                spd : ''
+            name: '',
+            id: '',
+            types: [],
+            sprite: '',
+            detailedStats: {
+                hp: '',
+                atk: '',
+                def: '',
+                spAtk: '',
+                spDef: '',
+                spd: ''
             },
-            detailedEvolutionChain : [],
-            detailedMoves : []
+            detailedEvolutionChain: [],
+            detailedMoves: [],
+            movesTutors: []
         };
 
         this.newPokemon = this.newPokemon.bind(this);
@@ -65,6 +66,7 @@ class App extends Component {
 
         /* Used to store the detailed moves into the state */
         let detailedMoves = this.state.detailedMoves;
+        let movesTutors = this.state.movesTutors;
 
         /* Used to store the detailed evolution chain into the state */
         let detailedEvolutionChain = this.state.detailedEvolutionChain;
@@ -83,7 +85,8 @@ class App extends Component {
                 spd : ''
             },
             detailedEvolutionChain : [],
-            detailedMoves : []
+            detailedMoves : [],
+            movesTutors : []
         });
 
         /* Queries the API with the user's input */
@@ -242,6 +245,31 @@ class App extends Component {
                                     this.setState({
                                         detailedMoves:sortedDetailedMoves
                                     });
+
+                                    /* Retrieves moves tutors */
+                                    pkmnList.moves.forEach((move) => {
+                                        move.version_group_details.forEach((move_version) => {
+                                            /* Move tutor, we can display it */
+                                            if (move_version.move_learn_method.name === 'tutor') {
+                                                movesTutors = {
+                                                    gen : move_version.version_group.name,
+                                                    name : move.move.name
+                                                };
+                                                this.setState({
+                                                    movesTutors: this.state.movesTutors.concat(movesTutors)
+                                                })
+                                            }
+                                        })
+                                    });
+                                    console.log(this.state.movesTutors);
+
+                                    /* Order moves by ascending */
+                                    let sortedmovesTutors = _.sortBy(this.state.movesTutors, 'gen', function(n) {
+                                        return Math.sin(n);
+                                    });
+                                    this.setState({
+                                        movesTutors:sortedmovesTutors
+                                    });
                                 });
                         });
                 }
@@ -302,6 +330,7 @@ class App extends Component {
                                     detailedStats = {this.state.detailedStats}
                                     detailedEvolutionChain = {this.state.detailedEvolutionChain}
                                     detailedMoves = {this.state.detailedMoves}
+                                    movesTutors = {this.state.movesTutors}
                                 />
                                 : <div></div>
                             : <div></div>

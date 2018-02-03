@@ -113,21 +113,43 @@ class Pokemon extends Component {
                         </div>
 
                         { /* Moves */ }
-                        <div className="col-md-5 col-xs-6 leftColumn">
-                            <div className="row">
-                                <div className="col">
-                                    <div className="row pokemonName movesHeader center-block">Possible moves (Gen 7)</div>
-                                    {
-                                        this.props.detailedMoves.map((move, i) => {
-                                            return (
-                                                <div className="row" key={i}>
-                                                    <div className="col-md-1"></div>
-                                                    <div className="movesLevel col">Level {move.level}</div>
-                                                    <div className="movesName col">{move.name}</div>
-                                                </div>
-                                            )
-                                        })
-                                    }
+                        <div className="row">
+                            <div className="col-md-6 col-xs-6 leftColumn">
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="row pokemonName movesHeader center-block">Possible moves (Gen 7)</div>
+                                        {
+                                            this.props.detailedMoves.map((move, i) => {
+                                                return (
+                                                    <div className="row" key={i}>
+                                                        <div className="col-md-1"></div>
+                                                        <div className="movesLevel col">Level {move.level}</div>
+                                                        <div className="movesName col">{move.name}</div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            { /* Moves tutors */ }
+                            <div className="col-md-6 col-xs-6 leftColumn">
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="row pokemonName movesHeader center-block">Taught by tutors</div>
+                                        {
+                                            this.props.movesTutors.map((move, i) => {
+                                                return (
+                                                    <div className="row" key={i}>
+                                                        <div className="col-md-1"></div>
+                                                        <div className="movesLevel col">{move.gen}</div>
+                                                        <div className="movesName col">{move.name}</div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
