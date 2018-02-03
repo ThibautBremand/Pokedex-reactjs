@@ -40,6 +40,14 @@
     font-weight: bold;
 }
 
+.statsList {
+    margin-left: 5px;
+}
+
+.statsValue {
+    margin-left: 5px;
+}
+
 .type {
     text-transform: capitalize;
     font-weight: bold;

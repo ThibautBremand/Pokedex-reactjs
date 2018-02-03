@@ -39,7 +39,7 @@ class Pokemon extends Component {
                         <div className="row">
 
                             { /*Pokemon's name, photo and Bulbapedia link*/ }
-                            <div className="col-md-5 col-xs-6 leftColumn">
+                            <div className="col-md-4 col-xs-6 leftColumn">
                                 <div className="row pokemonName center-block">{this.props.name}</div>
                                 {
                                     this.props.sprite !== '' ?
@@ -62,13 +62,16 @@ class Pokemon extends Component {
                             </div>
 
                             { /*Pokemon's stats*/ }
-                            <div className="col-md-3 col-xs-6 leftColumn">
+                            <div className="col-md-4 col-xs-6 leftColumn">
                                     <div className="row pokemonName center-block">Stats</div>
                                 {
                                     this.props.stats.map((stat, k) => {
                                         return (
-                                            <div className="row" key={k}>
-                                                <div className="stats">{stat["id"]}:</div><div className="">{stat["value"]}</div>
+                                            <div className="col" key={k}>
+                                                <div className="row statsList">
+                                                    <div className="stats">{stat["id"]}:</div>
+                                                    <div className="statsValue">{stat["value"]}</div>
+                                                </div>
                                             </div>
                                         )
                                     })
