@@ -28,8 +28,19 @@ class App extends Component {
             evolChain : [],
             moves : []
         };
+
         this.newPokemon = this.newPokemon.bind(this);
+
+        /* GENERAL CONSTS */
         this.BASE_URL = 'https://pokeapi.co/api/v2/pokemon/';
+
+        /* Keys used to parse detailed stats */
+        this.HP_KEY = 'hp';
+        this.ATK_KEY = 'attack';
+        this.DEF_KEY = 'defense';
+        this.SPATK_KEY = 'special-attack';
+        this.SPDEF_KEY = 'special-defense';
+        this.SPD_KEY = 'speed';
     }
 
     /***
@@ -112,32 +123,32 @@ class App extends Component {
 
                                     /* Retrieves stats */
                                     pkmnList.stats.forEach((stat) => {
-                                        if (stat.stat.name === 'hp') {
+                                        if (stat.stat.name === this.HP_KEY) {
                                             detailedStats.hp = stat.base_stat;
                                             this.setState({detailedStats});
                                         }
 
-                                        if (stat.stat.name === 'attack') {
+                                        if (stat.stat.name === this.ATK_KEY) {
                                             detailedStats.atk = stat.base_stat;
                                             this.setState({detailedStats});
                                         }
 
-                                        if (stat.stat.name === 'defense') {
+                                        if (stat.stat.name === this.DEF_KEY) {
                                             detailedStats.def = stat.base_stat;
                                             this.setState({detailedStats});
                                         }
 
-                                        if (stat.stat.name === 'special-attack') {
+                                        if (stat.stat.name === this.SPATK_KEY) {
                                             detailedStats.spAtk = stat.base_stat;
                                             this.setState({detailedStats});
                                         }
 
-                                        if (stat.stat.name === 'special-defense') {
+                                        if (stat.stat.name === this.SPDEF_KEY) {
                                             detailedStats.spDef = stat.base_stat;
                                             this.setState({detailedStats});
                                         }
 
-                                        if (stat.stat.name === 'speed') {
+                                        if (stat.stat.name === this.SPD_KEY) {
                                             detailedStats.spd = stat.base_stat;
                                             this.setState({detailedStats});
                                         }
