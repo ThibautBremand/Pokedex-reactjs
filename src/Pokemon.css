@@ -19,21 +19,12 @@
     font-size: 15px;
 }
 
-@media (max-width: 780px) {
-    .pokemonName {
-        font-size: 15px;
-    }
-
-    .Form-text a {
-        font-size: 12px;
-    }
-}
-
 .leftColumn {
     margin-top:5px;
     margin-bottom:5px;
 }
 
+/* Stats */
 .stats {
 
     text-transform: capitalize;
@@ -59,6 +50,7 @@
     margin-right: auto;
 }
 
+/* Navigation */
 .navPokemon {
     margin-top:10px;
 }
@@ -71,6 +63,7 @@
     margin-right:10px;
 }
 
+/* Moves */
 .movesName {
     text-transform: capitalize;
     text-align: left;
@@ -84,4 +77,32 @@
 .movesHeader {
     margin-top:15px;
     margin-bottom:5px;
+}
+
+@media (max-width: 780px) {
+    .pokemonName {
+        font-size: 18px;
+    }
+
+    .Form-text a {
+        font-size: 12px;
+    }
+
+    /* Stats (mobile) */
+    .stats {
+        font-size: 14px;
+    }
+
+    .statsValue {
+        font-size: 14px;
+    }
+
+    /* Moves (mobile) */
+    .movesName {
+        font-size: 14px;
+    }
+
+    .movesLevel {
+        font-size: 14px;
+    }
 }
