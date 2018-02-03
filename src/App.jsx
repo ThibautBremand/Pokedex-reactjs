@@ -26,7 +26,7 @@ class App extends Component {
                 spDef : '',
                 spd : ''
             },
-            evolChain : [],
+            detailedEvolutionChain : [],
             detailedMoves : []
         };
 
@@ -63,8 +63,11 @@ class App extends Component {
         /* Used to store the detailed stats into the state */
         let detailedStats = this.state.detailedStats;
 
-        /* Used to store the datailed moves into the state */
+        /* Used to store the detailed moves into the state */
         let detailedMoves = this.state.detailedMoves;
+
+        /* Used to store the detailed evolution chain into the state */
+        let detailedEvolutionChain = this.state.detailedEvolutionChain;
 
         this.setState({
             name : '',
@@ -79,7 +82,7 @@ class App extends Component {
                 spDef : '',
                 spd : ''
             },
-            evolChain : [],
+            detailedEvolutionChain : [],
             detailedMoves : []
         });
 
@@ -133,7 +136,9 @@ class App extends Component {
                                     });
 
                                     /* Retrieves sprite */
-                                    this.setState({sprite: pkmnList.sprites['front_default']});
+                                    this.setState({
+                                        sprite: pkmnList.sprites['front_default']
+                                    });
 
                                     /* Retrieves types */
                                     pkmnList.types.forEach((type) => {
@@ -177,24 +182,38 @@ class App extends Component {
 
                                     /* Retrieves evolution chain */
                                     let currentEvolution = evolutionChain.chain.evolves_to;
+
+                                    detailedEvolutionChain = {
+                                        name: evolutionChain.chain.species.name,
+                                        id: evolutionChain.chain.species.url.substr(
+                                            evolutionChain.chain.species.url.indexOf('/pokemon-species/') + ('/pokemon-species/').length
+                                        ).slice(0, -1)
+                                    };
                                     this.setState({
-                                        evolChain: this.state.evolChain.concat(
-                                            [evolutionChain.chain.species.name]
-                                        )
+                                        detailedEvolutionChain: this.state.detailedEvolutionChain.concat(detailedEvolutionChain)
                                     });
+
                                     if (currentEvolution[0] !== null && currentEvolution.length > 0) {
+                                        detailedEvolutionChain = {
+                                            name: currentEvolution[0].species.name,
+                                            id: currentEvolution[0].species.url.substr(
+                                                currentEvolution[0].species.url.indexOf('/pokemon-species/') + ('/pokemon-species/').length
+                                            ).slice(0, -1)
+                                        };
                                         this.setState({
-                                            evolChain: this.state.evolChain.concat(
-                                                [currentEvolution[0].species.name]
-                                            )
+                                            detailedEvolutionChain: this.state.detailedEvolutionChain.concat(detailedEvolutionChain)
                                         });
 
                                         if (currentEvolution[0].evolves_to[0] !== null && currentEvolution[0].evolves_to.length > 0) {
+                                            detailedEvolutionChain = {
+                                                name: currentEvolution[0].evolves_to[0].species.name,
+                                                id: currentEvolution[0].evolves_to[0].species.url.substr(
+                                                    currentEvolution[0].evolves_to[0].species.url.indexOf('/pokemon-species/') + ('/pokemon-species/').length
+                                                ).slice(0, -1)
+                                            };
                                             this.setState({
-                                                evolChain: this.state.evolChain.concat(
-                                                    currentEvolution[0].evolves_to[0].species.name
-                                                )
-                                            })
+                                                detailedEvolutionChain: this.state.detailedEvolutionChain.concat(detailedEvolutionChain)
+                                            });
                                         }
                                     }
 
@@ -281,7 +300,7 @@ class App extends Component {
                                     types = {this.state.types}
                                     sprite = {this.state.sprite}
                                     detailedStats = {this.state.detailedStats}
-                                    evolChain = {this.state.evolChain}
+                                    detailedEvolutionChain = {this.state.detailedEvolutionChain}
                                     detailedMoves = {this.state.detailedMoves}
                                 />
                                 : <div></div>

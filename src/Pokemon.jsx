@@ -29,8 +29,10 @@ class Pokemon extends Component {
     };
 
     render() {
-        const BULBAPEDIA_URL = 'https://bulbapedia.bulbagarden.net/wiki/'
-        let currentBulbapediaLink = `${BULBAPEDIA_URL}${this.props.name}`
+        const BULBAPEDIA_URL = 'https://bulbapedia.bulbagarden.net/wiki/';
+        const EVOLCHAINIMG_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+        const EVOLCHAINIMG_EXT = '.png';
+        let currentBulbapediaLink = `${BULBAPEDIA_URL}${this.props.name}`;
 
         return (
             <div>
@@ -97,9 +99,12 @@ class Pokemon extends Component {
                                     <div className="row pokemonName center-block">Evolution chain
                                     </div>
                                     {
-                                        this.props.evolChain.map((evol, k) => {
+                                        this.props.detailedEvolutionChain.map((evol, k) => {
                                             return (
-                                                <button key={k} className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(evol)}>{evol}</button>
+                                                <div key={k}>
+                                                    <img className="evolchainImg" src={`${EVOLCHAINIMG_URL}${evol.id}${EVOLCHAINIMG_EXT}`} alt="Not found"/>
+                                                    <button className="row center-block btn btn-link pokemonEvolName" onClick={() => this.clickedPokemon(evol.name)}>{evol.name}</button>
+                                                </div>
                                             )
                                         })
                                     }

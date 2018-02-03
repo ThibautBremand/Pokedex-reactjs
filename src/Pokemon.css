@@ -13,12 +13,6 @@
     font-size: 25px;
 }
 
-.pokemonEvolName {
-    text-transform: capitalize;
-    font-weight: bold;
-    font-size: 15px;
-}
-
 .leftColumn {
     margin-top:5px;
     margin-bottom:5px;
@@ -77,6 +71,19 @@
 .movesHeader {
     margin-top:15px;
     margin-bottom:5px;
+}
+
+/* Evolution chain */
+.evolchainImg {
+    max-width: 60px;
+    margin-top: -5px;
+}
+
+.pokemonEvolName {
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 15px;
+    margin-top: -20px;
 }
 
 @media (max-width: 780px) {
