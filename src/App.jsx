@@ -66,7 +66,6 @@ class App extends Component {
 
         /* Used to store the detailed moves into the state */
         let detailedMoves = this.state.detailedMoves;
-        let movesTutors = this.state.movesTutors;
 
         /* Used to store the detailed evolution chain into the state */
         let detailedEvolutionChain = this.state.detailedEvolutionChain;
@@ -247,35 +246,53 @@ class App extends Component {
                                     });
 
                                     /* Retrieves moves tutors */
+                                    let moveTutor;
+                                    let movesTutorsLoop = [];
                                     pkmnList.moves.forEach((move) => {
                                         move.version_group_details.forEach((move_version) => {
                                             /* Move tutor, we can display it */
                                             if (move_version.move_learn_method.name === 'tutor') {
-                                                movesTutors = {
+                                                moveTutor = {
                                                     gen : move_version.version_group.name,
                                                     name : move.move.name
                                                 };
-                                                this.setState({
-                                                    movesTutors: this.state.movesTutors.concat(movesTutors)
-                                                })
+                                                movesTutorsLoop = movesTutorsLoop.concat(moveTutor)
                                             }
                                         })
                                     });
-                                    console.log(this.state.movesTutors);
 
                                     /* Order moves by ascending */
-                                    let sortedmovesTutors = _.sortBy(this.state.movesTutors, 'gen', function(n) {
+                                    movesTutorsLoop = _.sortBy(movesTutorsLoop, 'gen', function(n) {
                                         return Math.sin(n);
                                     });
-                                    this.setState({
-                                        movesTutors:sortedmovesTutors
-                                    });
+
+                                    let movesTutorsByGen = [];
+                                    let indGen = 0;
+                                    for (let i = 0; i < movesTutorsLoop.length; ++i) {
+                                        if (i === 0) {
+                                            movesTutorsByGen[indGen] = [];
+                                            movesTutorsByGen[indGen] = movesTutorsByGen[indGen].concat(movesTutorsLoop[i]);
+                                        }
+                                        if (i > 0) {
+                                            if (movesTutorsByGen[indGen][0].gen === movesTutorsLoop[i].gen) {
+                                                movesTutorsByGen[indGen] = movesTutorsByGen[indGen].concat(movesTutorsLoop[i]);
+                                            }
+                                            else {
+                                                indGen ++;
+                                                movesTutorsByGen[indGen] = [];
+                                                movesTutorsByGen[indGen] = movesTutorsByGen[indGen].concat(movesTutorsLoop[i]);
+                                            }
+                                        }
+                                    }
+                                    this.setState({movesTutors: movesTutorsByGen});
                                 });
                         });
                 }
                 else {
                     /* The user entered a wrong query */
-                    this.setState({pokemonFound : false})
+                    this.setState({
+                        pokemonFound : false
+                    })
                 }
             });
     }
@@ -285,7 +302,10 @@ class App extends Component {
      */
     newPokemon(query) {
         let FETCH_URL = `${this.BASE_URL}${query}`;
-        this.setState({isFetching:false, pokemonFound:false});
+        this.setState({
+            isFetching:false,
+            pokemonFound:false
+        });
         this.fetchAPI(FETCH_URL);
     }
 
@@ -302,7 +322,9 @@ class App extends Component {
                                 type="text"
                                 placeholder="Search for a Pokemon name or number"
                                 value={this.state.query}
-                                onChange={event => {this.setState({query: event.target.value})}}
+                                onChange={event => {this.setState({
+                                    query: event.target.value
+                                })}}
                                 onKeyPress={event => {
                                     if (event.key === 'Enter') {
                                         this.search()

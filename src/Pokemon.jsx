@@ -139,12 +139,32 @@ class Pokemon extends Component {
                                     <div className="col">
                                         <div className="row pokemonName movesHeader center-block">Taught by tutors</div>
                                         {
-                                            this.props.movesTutors.map((move, i) => {
+                                            this.props.movesTutors.map((gen, l) => {
+                                                let targetDiv = `collapseMoveTutor${l}`;
+                                                let idTargetDiv = `#${targetDiv}`;
+                                                console.log(targetDiv);
                                                 return (
-                                                    <div className="row" key={i}>
-                                                        <div className="col-md-1"></div>
-                                                        <div className="movesLevel col">{move.gen}</div>
-                                                        <div className="movesName col">{move.name}</div>
+                                                    <div className="" key={l}>
+
+                                                        <button className="btn btn-secondary" type="button" data-toggle="collapse" data-target={idTargetDiv}  aria-expanded="false" aria-controls={idTargetDiv}>
+                                                            {gen[0].gen}
+                                                        </button>
+
+                                                        <div className="collapse" id={targetDiv}>
+                                                            <div className="card card-block">
+                                                            {
+                                                                gen.map((move, i) => {
+                                                                    return (
+                                                                        <div className="row" key={i}>
+                                                                            <div className="col-md-1"></div>
+                                                                            <div className="movesLevel col">{move.gen}</div>
+                                                                            <div className="movesName col">{move.name}</div>
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                            }
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 )
                                             })
