@@ -86,6 +86,16 @@
     margin-top: -20px;
 }
 
+/* Moves tutors */
+.btnMovesTutors {
+    text-transform: capitalize;
+    margin-top: 10px;
+}
+
+.cardMovesTutors {
+    background: rgba(224, 231, 197, 0.4);
+}
+
 @media (max-width: 780px) {
     .pokemonName {
         font-size: 18px;
